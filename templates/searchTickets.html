@@ -1,0 +1,24 @@
+<table class="table table-hover">
+    <tbody>
+        <tr>
+            <th>Status</th>
+            <th>Ticket # </th>
+            <th>Asset Id</th>
+            <th>Agent</th>
+            <th>Subject</th>
+            <th>Created by</th>
+            <th></th>
+        </tr>
+            {% for row in tickets %}
+                <tr>
+                    <td class="customStatusColor">{{ row.status }}</td>
+                    <td>{{ row.ticket_id }}</td>
+                    <td>{{ row.asset_tag }}</td>
+                    <td>{{ row.agent_name }}</td>
+                    <td>{{ row.subject }}</td>
+                    <td>{{ row.created_by }}</td>
+                    <td><button type="button" class="btn btn-custom-1" data-bs-toggle="modal" data-bs-target="#exampleModal{{row.ticket_id}}">Edit</button></td>
+                </tr>
+            {% endfor %}
+    </tbody>
+</table>

@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Submit ticket
+{% endblock %}
+
+{% block main %}
+{% if error %}
+<p class="alert alert-danger">{{ error }}</p>
+{% endif %}
+<div class="divider--center40">
+    <p>Please fill in the fields bellow and submit your ticket. A fellow agent will soon be in contact with you.</p>
+</div>
+
+<div class="divider--center40">
+    <form action="/submit" method="post">
+        <div class="input--form"><input autocomplete="off" class="form-control mx-auto verify" name="createdBy" placeholder="Full Name" type="text"></div>
+        <div class="input--form"><div class="error"></div></div>
+        <div class="input--form"><input autocomplete="off" class="form-control mx-auto verify" name="email" placeholder="Email" type="text"></div>
+        <div class="input--form"><div class="error"></div></div>
+        <div class="input--form"><select class="form-select" name="assetTag" required>
+                            <option value="" selected disabled hidden>Select an asset tag</option>
+                            {% for row in assets %}
+                            <option value="{{row.asset_tag}}">{{row.asset_tag}}</option>
+                            {% endfor %}
+                    </select></div>
+        <div class="input--form"><select class="form-select" name="serviceType" required>
+                            <option value="" selected disabled hidden>Service type</option>
+                            <option value="Software">Software</option>
+                            <option value="Hardware">Hardware</option>
+                            <option value="Other">Other</option>
+                        </select></div>
+        <div class="input--form"><input autocomplete="off" class="form-control mx-auto" name="subject" placeholder="Subject" type="text"></div>
+        <div class="input--form"><textarea class="form-control" rows="5" cols="30" name="description" placeholder="Description"></textarea></div>
+        <div class="input--form"><button class="btn btn-primary btn-primary-right" name="postType" value="new" type="submit">Submit ticket</button></div>
+    </form>
+</div>
+
+{% endblock %}

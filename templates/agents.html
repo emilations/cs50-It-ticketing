@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+
+{% block title %}
+	Agents
+{% endblock %}
+
+{% block main %}
+{% if error %}
+<p class="alert alert-danger">{{ error }}</p>
+{% endif %}
+<form class="" action="/agents" method="post">
+	<div class="divider--center80 divider--height">
+		<div class="divider-top--left">
+			<button type="submit" class="btn btn-primary btn-custom-2" data-bs-toggle="modal" data-bs-target="#exampleModalSubmitTicket">Save new HR code</button>
+		</div>
+		<div class="divider-top--right">
+			<input autocomplete="off" class="form-control mx-auto search--height" name="codeHR" placeholder="Code from HR" value={{ codeHR }} type="text">
+		</div>
+	</div>
+</form>
+
+
+<div class="divider--center80">
+	<table class="table table-hover"><div>
+		<thead>
+			<tr>
+				<th scope="col">ID</th>
+				<th scope="col">Name</th>
+				<th scope="col">Email</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for row in agents %}
+			<tr>
+				<td>{{ row.employee_id }}</td>
+				<td>{{ row.name }}</td>
+				<td>{{ row.email }}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+
+{% endblock %}

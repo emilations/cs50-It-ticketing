@@ -1,0 +1,148 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Assets
+{% endblock %}
+
+{% block main %}
+{% if error %}
+<p class="alert alert-danger">{{ error }}</p>
+{% endif %}
+<!-- Submit and search asset-->
+<div class="divider--center80 divider--height">
+    <div class="divider-top--left">
+        <button type="button" class="btn btn-primary btn-custom-2" data-bs-toggle="modal" data-bs-target="#exampleModalSubmitAsset">Create new asset </button>
+    </div>
+    <div class="divider-top--right">
+		<input id="searchInput2" autocomplete="off" class="form-control mx-auto search--height" name="keyword" placeholder="Search assets by asset tag" type="text">
+	</div>
+</div>
+
+<!-- Show assets cards -->
+<div class="divider--center80">
+    <div id="searchId2">
+    {% for row in assets %}
+        <div class="assets--card">
+            <table class="table--100">
+                <tbody>
+                    <tr><td><strong>Asset tag: </strong>{{ row.asset_tag }} </td></tr>
+                    <tr><td><strong>Status: </strong>{{ row.asset_status }} </td></tr>
+                    <tr><td><strong>Device type:</strong> {{ row.device_type }} </td></tr>
+                    <tr><td><strong>Brand:</strong> {{ row.brand }} </td></tr>
+                    <tr><td><strong>Model:</strong> {{ row.model }} </td></tr>
+                    <tr><td><strong>Serial:</strong> {{ row.serial_number }} </td></tr>
+                    <tr><td><strong>Date in service:</strong> {{ row.date_in_service }} </td></tr>
+                    <tr><td><strong>Warranty start:</strong> {{ row.warranty_start }} </td></tr>
+                    <tr><td><strong>Warranty end:</strong> {{ row.warranty_end }} </td></tr>
+                    <tr><td><button type="button" class="btn btn-custom-1 btn-custom--right" data-bs-toggle="modal" data-bs-target="#exampleModal{{row.asset_tag}}">Edit asset tag {{row.asset_tag}}</button></td></tr>
+                </tbody>
+            </table>
+        </div>
+    {% endfor %}
+    </div>
+</div>
+
+<!-- Not visible (asset edit) -->
+{% for row in assets %}
+<form action="/assets" method="post">
+    <div class="modal fade" id="exampleModal{{row.asset_tag}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modify asset tag <b>{{row.asset_tag}}</b></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <table>
+                        <tbody>
+                            <input type="hidden" id="assetId" name="assetId" value="{{row.asset_id}}">
+                            <tr><td><strong>Asset tag: </td><td><div class=""><input autocomplete="off" id="assetTag" class="form-control mx-auto" name="assetTag" placeholder="Insert new asset tag #" type="text" value="{{row.asset_tag}}"></div></td></tr>
+                            <tr><td><strong>Status: </strong></td><td>
+                                <div class="input--form2">
+                                    <select class="form-select" name="assetStatus" required>
+                                        <option value="In service" {% if row.asset_status=="In service" %} selected="selected" {% endif %}>In service</option>
+                                        <option value="Out of service" {% if row.asset_status=="Out of service" %} selected="selected" {% endif %}>Out of service</option>
+                                    </select>
+                                </div>
+                            </td></tr>
+                            <tr><td><strong>Device type: </strong></td><td>
+                                <div class="input--form2">
+                                    <select class="form-select" name="deviceType" required>
+                                        <option value="Laptop" {% if row.device_type=="Laptop" %} selected="selected" {% endif %}>Laptop</option>
+                                        <option value="Cellphones" {% if row.device_type=="Cellphones" %} selected="selected" {% endif %}>Cellphones</option>
+                                        <option value="Accessories" {% if row.device_type=="Accessories" %} selected="selected" {% endif %}>Accessories</option>
+                                    </select>
+                                </div>
+                            </td></tr>
+                            <tr><td><strong>Brand: </strong></td><td><div class="input--form2"><input autocomplete="off" class="form-control mx-auto" name="brand" placeholder="Brand" type="text" value="{{row.brand}}"></div></td></tr>
+                            <tr><td><strong>Model: </strong></td><td><div class="input--form2"><input autocomplete="off" class="form-control mx-auto" name="model" placeholder="Model" type="text" value="{{row.model}}"></div></td></tr>
+                            <tr><td><strong>Serial number: </strong></td><td><div class="input--form2"><input autocomplete="off" class="form-control mx-auto" name="serialNumber" placeholder="Serial number" type="text" value="{{row.serial_number}}"></div></td></tr>
+                            <tr><td><strong>Date in service: </strong></td><td><div class="input--form2"><input autocomplete="off" class="form-control mx-auto" name="dateInService" placeholder="Day in service" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" value="{{row.date_in_service}}"></div></td></tr>
+                            <tr><td><strong>Warranty start: </strong></td><td><div class="input--form2"><input autocomplete="off" class="form-control mx-auto" name="warrantyStart" placeholder="Warranty start" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" value="{{row.warranty_start}}"></div></td></tr>
+                            <tr><td><strong>Warranty end: </strong></td><td><div class="input--form2"><input autocomplete="off" class="form-control mx-auto" name="warrantyEnd" placeholder="Warranty end" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" value="{{row.warranty_end}}"></div></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModalB{{row.asset_tag}}">Delete</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" name="postType" value="edit" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+	<div class="modal fade" id="exampleModalB{{row.asset_tag}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Asset tag # {{row.asset_tag}}</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<p>Are you sure you want to delete the asset?</p>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-secondary" type="button" data-bs-dismiss="modal">No</button>
+					<button class="btn btn-primary" type="submit" name="postType" value="delete">Yes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+
+<!-- Not visible (submit asset) -->
+<div class="modal fade" id="exampleModalSubmitAsset" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Asset tag # {{row.asset_tag}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="/assets" method="post">
+                <div class="modal-body">
+                    <div class="input--form"><input autocomplete="off" class="form-control mx-auto" name="assetTag" placeholder="Insert new asset tag #" type="text"></div>
+                    <div class="input--form"><select class="form-select" name="deviceType" required>
+                                        <option value="" selected disabled hidden>Device type</option>
+                                        <option value="Laptop">Laptop</option>
+                                        <option value="Cellphones">Cellphones</option>
+                                        <option value="Accessories">Accessories</option>
+                                    </select></div>
+                    <div class="input--form"><input autocomplete="off" class="form-control mx-auto" name="brand" placeholder="Brand" type="text"></div>
+                    <div class="input--form"><input autocomplete="off" class="form-control mx-auto" name="model" placeholder="Model" type="text"></div>
+                    <div class="input--form"><input autocomplete="off" class="form-control mx-auto" name="serialNumber" placeholder="Serial number" type="text"></div>
+                    <div class="input--form"><input autocomplete="off" class="form-control mx-auto" name="dateInService" placeholder="Day in service" type="text" onfocus="(this.type='date')" onblur="(this.type='text')"></div>
+                    <div class="input--form"><input autocomplete="off" class="form-control mx-auto" name="warrantyStart" placeholder="Warranty start" type="text" onfocus="(this.type='date')" onblur="(this.type='text')"></div>
+                    <div class="input--form"><input autocomplete="off" class="form-control mx-auto" name="warrantyEnd" placeholder="Warranty end" type="text" onfocus="(this.type='date')" onblur="(this.type='text')"></div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button>
+                    <div class="input--form"><button class="btn form-control btn-primary btn-primary-right" name="postType" value="new" type="submit">Create new asset</button></div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endfor %}
+
+{% endblock %}

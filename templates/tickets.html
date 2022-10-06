@@ -1,0 +1,181 @@
+{% extends "layout.html" %}
+
+{% block title %}
+	Tickets
+{% endblock %}
+
+{% block main %}
+{% if error %}
+<p class="alert alert-danger">{{ error }}</p>
+{% endif %}
+<!-- Submit and search ticket-->
+<div class="divider--center80 divider--height">
+    <div class="divider-top--left">
+        <button type="button" class="btn btn-primary btn-custom-2" data-bs-toggle="modal" data-bs-target="#exampleModalSubmitTicket">Create new ticket</button>
+    </div>
+    <div class="divider-top--right">
+		<input id="searchInput1" autocomplete="off" class="form-control mx-auto search--height" name="keyword" placeholder="Search ticket by subject" type="text">
+	</div>
+</div>
+
+<!-- Tickets table-->
+<div class="divider divider--center80">
+	<div id="searchId1">
+		<table class="table table-hover">
+			<tbody>
+				<tr>
+					<th>Status</th>
+					<th>Ticket # </th>
+					<th>Asset Id</th>
+					<th>Agent</th>
+					<th>Subject</th>
+					<th>Created by</th>
+					<th></th>
+				</tr>
+					{% for row in tickets %}
+						<tr>
+							<td class="customStatusColor">{{ row.status }}</td>
+							<td>{{ row.ticket_id }}</td>
+							<td>{{ row.asset_tag }}</td>
+							<td class="customStatusColor2">{{ row.agent_name }}</td>
+							<td>{{ row.subject }}</td>
+							<td>{{ row.created_by }}</td>
+							<td><button type="button" class="btn btn-custom-1" data-bs-toggle="modal" data-bs-target="#exampleModal{{row.ticket_id}}">Edit</button></td>
+						</tr>
+					{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<!-- Not visible (ticket edit) -->
+{% for row in tickets %}
+<form action="/tickets" method="post">
+	<div class="modal fade" id="exampleModal{{row.ticket_id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Modify ticket {{row.ticket_id}}</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<table>
+						<tbody>
+							<input type="hidden" name="ticketId" value="{{row.ticket_id}}">
+							<tr><td><strong>Status: </strong></td><td>
+								<div class="input--form2">
+									<select class="form-select" name="status" required>
+										<option value="Open" {% if row.status=="Open" %} selected="selected" {% endif %}>Open</option>
+										<option value="Closed" {% if row.status=="Closed" %} selected="selected" {% endif %}>Closed</option>
+									</select>
+								</div>
+							</td></tr>
+							<tr><td><strong>Service type: </strong></td><td>
+								<div class="input--form2">
+									<select class="form-select" name="serviceType" required>
+										<option value="Software" {% if row.service_type=="Software" %} selected="selected" {% endif %}>Software</option>
+										<option value="Hardware" {% if row.service_type=="Hardware" %} selected="selected" {% endif %}>Hardware</option>
+										<option value="Other" {% if row.service_type=="Other" %} selected="selected" {% endif %}>Other</option>
+									</select>
+								</div>
+							</td></tr>
+							<tr><td><strong>Subject: </strong></td><td><div class="input--form2"><input autocomplete="off" class="form-control mx-auto" name="subject" placeholder="Subject" type="text" value="{{ row.subject }}"></div></td></tr>
+							<tr><td><strong>Description: </strong></td><td><div class="input--form2"><textarea class="form-control" rows="5" cols="30" name="description" placeholder="Description">{{ row.description }}</textarea></div></td></tr>
+							<tr><td><strong>Asset Id: </strong></td><td>
+								<div class="input--form2">
+									<select class="form-select" name="assetTag" required>
+										<option value="None" selected>None</option>
+										{% for line in assets %}
+										<option value="{{ line.asset_tag }}" {% if line.asset_tag == row.asset_tag %} selected="selected" {% endif %}>{{ line.asset_tag }}</option>
+										{% endfor %}
+									</select>
+								</div>
+							</td></tr>
+							<tr><td><strong>Created by: </strong></td><td><div class="input--form2"><input autocomplete="off" class="form-control mx-auto" name="createdBy" placeholder="Created by" type="text" value="{{ row.created_by }}"></div></td></tr>
+							<tr><td><strong>Email: </strong></td><td><div class="input--form2"><input autocomplete="off" class="form-control mx-auto" name="email" placeholder="Email" type="text" value="{{ row.email }}"></div></td></tr>
+							<tr><td><strong>Agent name: </strong></td><td>
+								<div class="input--form2">
+									<select class="form-select" name="agentName" required>
+										<option value="None" selected>None</option>
+										{% for line in agents %}
+										<option value="{{ line.name }}" {% if line.name == row.agent_name %} selected="selected" {% endif %}>{{ line.name }}</option>
+										{% endfor %}
+									</select>
+								</div>
+							</td></tr>
+							<tr><td><strong>Time created: </strong></td><td><div class="input--form2"><input disabled autocomplete="off" id="date1" class="form-control mx-auto" name="timeCreated" placeholder="Time created" type="datetime-local" value="{{ row.time_created }}"></div></td></tr>
+							<tr><td><strong>Time closed: </strong></td><td><div class="input--form2"><input disabled autocomplete="off" class="form-control mx-auto" name="timeClosed" placeholder="Time closed" type="datetime-local" value="{{ row.time_closed }}"></div></td></tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModalA{{row.ticket_id}}">Delete</button>
+					<button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button>
+					<button class="btn btn-primary" type="submit" name="postType" value="edit">Save changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+<form action="/tickets" method="post">
+	<div class="modal fade" id="exampleModalA{{row.ticket_id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Ticket # {{row.ticket_id}}</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<input type="hidden" name="ticketId" value="{{row.ticket_id}}">
+					<p>Are you sure you want to delete this ticket?</p>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-secondary" type="button" data-bs-dismiss="modal">No</button>
+					<button class="btn btn-primary" type="submit" name="postType" value="delete">Yes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+
+{% endfor %}
+
+<!-- Not visible (Submit ticket)-->
+<form action="/tickets" method="post">
+	<div class="modal fade" id="exampleModalSubmitTicket" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Submit new ticket</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<form action="/tickets" method="post">
+						<div class="input--form"><input autocomplete="off" class="form-control mx-auto" name="createdBy" placeholder="Full Name" type="text" autofocus></div>
+						<div class="input--form"><input autocomplete="off" class="form-control mx-auto" name="email" placeholder="Email" type="text"></div>
+						<div class="input--form"><select class="form-select" name="assetTag" required>
+											<option value="" selected disabled hidden>Select an asset tag</option>
+											{% for row in assets %}
+											<option value="{{row.asset_tag}}">{{row.asset_tag}}</option>
+											{% endfor %}
+									</select></div>
+						<div class="input--form"><select class="form-select" name="serviceType" required>
+											<option value="" selected="selected" disabled="disabled" hidden>Service type</option>
+											<option value="Software">Software</option>
+											<option value="Hardware">Hardware</option>
+											<option value="Other">Other</option>
+									</select></div>
+						<div class="input--form"><input autocomplete="off" class="form-control mx-auto" name="subject" placeholder="Subject" type="text"></div>
+						<div class="input--form"><textarea class="form-control" rows="5" cols="30" name="description" placeholder="Description"></textarea></div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button>
+					<div class="input--form"><button class="btn btn-custom-1 btn-primary-right" name="postType" value="new" type="submit">Submit ticket</button></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+
+{% endblock %}

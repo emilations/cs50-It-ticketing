@@ -1,0 +1,225 @@
+/* Size for brand */
+nav .navbar-brand{
+	font-size: xx-large;
+}
+
+/* Colors for brand */
+nav .navbar-brand .blue{
+	color: #537fbe;
+}
+
+nav .navbar-brand .red{
+	color: #ea433b;
+}
+
+nav .navbar-brand .yellow{
+	color: #f5b82e;
+}
+
+nav .navbar-brand .green{
+	color: #2e944b;
+}
+
+/* correction of border corner issue */
+.accordion-item:first-of-type .accordion-button {
+	border-bottom-left-radius: calc(.25rem - 1px);
+	border-bottom-right-radius: calc(.25rem - 1px);
+}
+
+/* centering all contents to 80% of the window */
+.divider--center80{
+	max-width: 1100px;
+	margin: 1% auto;
+	text-align: left !important;
+}
+
+/* centering all contents to 40% of the window */
+.divider--center40{
+	max-width: 550px;
+	margin: 1% auto;
+	text-align: left !important;
+}
+
+.divider--center40--left{
+	width: 50%;
+	float: left;
+	padding-right: 0.5%;
+	padding-bottom: 2%;
+}
+
+.divider--center40--right{
+	width: 50%;
+	float: left;
+	padding-left: 0.5%;
+	padding-bottom: 2%;
+}
+
+/* remove the page top padding */
+.py-5 {
+	padding-top: 1rem !important;
+}
+
+/* Add underline on active menu item */
+.activeMenuItem{
+	font-weight: bold;
+}
+
+/* Grey out unselected select input */
+select:invalid{
+	color: #6c757d !important;
+}
+
+option{
+	color: #212529 !important;
+}
+
+/* change button colour*/
+.btn-primary{
+	color: black;
+	background-color: #e7f1ff;
+	border-color: black;
+}
+
+/* Edit button custom color*/
+.btn-custom-1{
+	background-color: rgba(var(--bs-light-rgb));
+	border-color: black;
+	border: 1px solid #ced4da;
+}
+
+/* Edit button hover color*/
+.btn-custom-1:hover{
+	color: #fff;
+	background-color: #537fbe;;
+	border: 1px solid black;
+}
+
+/* Remove the outline glow blue from the input field*/
+input:focus{
+    outline:none;
+}
+
+/* Modifiy the submit ticket font colour */
+.accordion-button--color{
+	color: black !important;
+}
+
+/* Modify the search input shape*/
+#searchInput1{
+	box-sizing: border-box;
+	border: 1px solid rgba(0,0,0,.125);
+	padding: 0.875rem 1.25rem;
+}
+
+/* Modify the search input shape*/
+#searchInput2{
+	box-sizing: border-box;
+	border: 1px solid rgba(0,0,0,.125);
+	padding: 0.875rem 1.25rem;
+}
+
+/* Change the colour of the placeholder */
+#searchInput1::placeholder{
+	color: black !important;
+}
+
+#searchInput2::placeholder{
+	color: black !important;
+}
+
+/* Vertical space submit ticket and asset*/
+.input--form{
+	margin: 0.5rem 0;
+}
+
+/* Vertical space in modify ticket and assets */
+.input--form2{
+	margin: 0.2rem 0;
+}
+
+/* Center the entries in the table vertically */
+td{
+	vertical-align: middle;
+}
+
+/* Asset card */
+.assets--card{
+	width: 30%;
+	float: left;
+	background-color: rgba(var(--bs-light-rgb));
+	border: 1px solid rgba(0,0,0,.125);
+	border-radius: 1rem;
+	padding: 0.875rem 1.25rem;
+	margin: 1rem;
+}
+
+/* Correct footer after float */
+#footer1{
+	clear: left;
+}
+
+/* Height of both button and search*/
+.divider--height{
+	height: 45px !important;
+}
+
+.divider-top--left{
+	float: left;
+	width: 20%;
+	height: 100% !important;
+}
+
+.divider-top--right{
+	float: left;
+	width: 80%;
+	height: 100% !important;
+}
+
+/* Fix height of search item */
+.search--height{
+	width: 100%;
+	border-radius:  0 0.5rem 0.5rem 0;
+	border: 1px solid rgba(0,0,0,.125);
+	height: 100%;
+}
+
+/*  Create button on top*/
+.btn-custom-2{
+	width: 100%;
+	border-radius:  0.5rem 0 0 0.5rem;
+	border: 1px solid rgba(0,0,0,.125);
+	height: 100%;
+	background-color: rgba(var(--bs-light-rgb));
+}
+
+/* Fix the issue of the hover blue color on buttons */
+.btn-check:focus + .btn-primary, .btn-primary:focus {
+	color: black;
+	background-color: rgba(var(--bs-light-rgb));
+	box-shadow: none;
+	border: 1px solid rgba(0,0,0,.125);
+}
+
+.btn-custom-2:hover{
+	color: #fff;
+	background-color: #537fbe;;
+	border: 1px solid black;
+}
+
+/* Fix edit button in assets*/
+
+.table--100{
+	width: 100%;
+}
+
+.btn-custom--right{
+	margin: 1rem auto 0 auto;
+	display: flex;
+	justify-content: center;
+}
+
+/* Clear blue shadow when closing the modal*/
+.btn-check:focus + .btn, .btn:focus {
+	outline: 0;
+	box-shadow: none;
+}

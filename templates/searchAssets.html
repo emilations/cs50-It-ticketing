@@ -1,0 +1,18 @@
+{% for row in assets %}
+    <div class="assets--card">
+        <table>
+            <tbody>
+                <tr><td><strong>Asset tag: </strong>{{ row.asset_tag }} </td></tr>
+                <tr><td><strong>Status: </strong>{{ row.asset_status }} </td></tr>
+                <tr><td><strong>Device type:</strong> {{ row.device_type }} </td></tr>
+                <tr><td><strong>Brand:</strong> {{ row.brand }} </td></tr>
+                <tr><td><strong>Model:</strong> {{ row.model }} </td></tr>
+                <tr><td><strong>Serial:</strong> {{ row.serial_number }} </td></tr>
+                <tr><td><strong>Date in service:</strong> {{ row.date_in_service }} </td></tr>
+                <tr><td><strong>Warranty start:</strong> {{ row.warranty_start }} </td></tr>
+                <tr><td><strong>Warranty end:</strong> {{ row.warranty_end }} </td></tr>
+                <tr><td><button type="button" class="" data-bs-toggle="modal" data-bs-target="#exampleModal{{row.asset_tag}}">Edit asset tag {{row.asset_tag}}</button></td></tr>
+            </tbody>
+        </table>
+    </div>
+{% endfor %}
