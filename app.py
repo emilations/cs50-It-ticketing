@@ -25,7 +25,7 @@ Session(app)
 # Configure CS50 Library to use SQLite database
 # db = SQL("sqlite:///itsolutions.db")
 
-uri = os.getenv("postgres://mimgobshtyekco:be2e5baae10edf6240b6fcc4c7076e446b5dcf3c28a1db0bcb9dc30847b554fa@ec2-3-214-2-141.compute-1.amazonaws.com:5432/d60t6lf7r3416")
+uri = os.getenv("DATABASE_URL")
 if uri.startswith("postgres://"):
     uri = uri.replace("postgres://", "postgresql://")
 db = SQL(uri)
