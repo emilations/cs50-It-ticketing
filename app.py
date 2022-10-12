@@ -252,8 +252,8 @@ def agents():
 		agents = db.execute("SELECT * FROM employees")
 		codeHR = db.execute("SELECT hr_code FROM human_resources")[0]["hr_code"]
 		for row in agents:
-			row["firstName"] = row["firstName"].title()
-			row["lastName"] = row["lastName"].title()
+			row["firstname"] = row["firstname"].title()
+			row["lastname"] = row["lastname"].title()
 		return render_template("agents.html", agents=agents, codeHR=codeHR)
 
 # SEARCH TICKETS JS Sync
