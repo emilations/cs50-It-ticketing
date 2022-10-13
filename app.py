@@ -169,7 +169,7 @@ def tickets():
 			# Conditions to print the timestamp for closing and opening tickets
 			previousStatus = db.execute("SELECT status FROM tickets WHERE ticket_id = ?", ticket["ticketId"])
 			if ticket["status"] == "Closed" and previousStatus[0]["status"] == "Open":
-				db.execute("UPDATE tickets SET status = ?, service_type = ?, subject = ?, description = ?, asset_tag = ?, created_by = ?, email = ?, agent_name = ?, time_closed = CURRENT_TIMESTAMP WHERE ticket_id = ?;",
+				db.execute("UPDATE tickets SET status = ?, service_type = ?, subject = ?, description = ?, asset_tag = ?, created_by = ?, email = ?, agent_name = ?, time_closed = CURRENT_TIMESTAMP(0) WHERE ticket_id = ?;",
 					ticket["status"], ticket["serviceType"], ticket["subject"], ticket["description"], ticket["assetTag"], ticket["createdBy"], ticket["email"], ticket["agentName"], ticket["ticketId"])
 			elif ticket["status"] == "Open" and previousStatus[0]["status"] == "Closed":
 				db.execute("UPDATE tickets SET status = ?, service_type = ?, subject = ?, description = ?, asset_tag = ?, created_by = ?, email = ?, agent_name = ?, time_closed = NULL WHERE ticket_id = ?;",
